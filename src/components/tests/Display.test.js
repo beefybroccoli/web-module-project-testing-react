@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Display from "../Display";
 import Show from "../Show";
+import axios from "axios";
+import fetchShow from "../../api/fetchShow";
 
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
@@ -10,12 +12,12 @@ import Show from "../Show";
 //-------------------------------------------------------------
 //2. Test that the Display component renders without any passed in props.
 test("render Display component", () => {
-  //arrange
+  //arrange---------------------------------------------------
   // eslint-disable-next-line react/react-in-jsx-scope
   render(<Display />);
   const image = screen.getByRole("img");
-  //act
-  //assert
+  //act-------------------------------------------------------
+  //assert----------------------------------------------------
   expect(image).toBeTruthy();
 });
 
@@ -25,15 +27,15 @@ test("render Display component", () => {
 //-------------------------------------------------------------
 //4. Test that when the fetch button is pressed, the show component will display. Make sure to account for the api call and change of state in building your test.
 test("show season selector when user click", async () => {
-  //arrange
+  //arrange---------------------------------------------------
   render(<Display />);
   const button = screen.getByRole("button");
   //   console.log(button);
-  //act
+  //act-------------------------------------------------------
   userEvent.click(button);
 
   const show = await screen.findByTestId("show-container");
-  //assert
+  //assert----------------------------------------------------
 
   expect(show).toBeTruthy();
 });
@@ -41,11 +43,16 @@ test("show season selector when user click", async () => {
 //-------------------------------------------------------------
 //5. Test that when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data.
 test("select options equal to number of seasons in test data", async () => {
-  //arrange
+  //arrange---------------------------------------------------
   render(<Display />);
-  //act
+  //act------------------------------------------------------
   userEvent.click(screen.getByRole("button"));
   const selectionOptions = await screen.findAllByTestId("season-option");
+  const testData = await fetchShow();
+  console.log("selectionOptions.length = ", selectionOptions.length);
+  console.log("testData.seasons.length = ", testData.seasons.length);
+  //assert----------------------------------------------------
+  expect(selectionOptions).toHaveLength(testData.seasons.length);
 });
 
 //-------------------------------------------------------------
