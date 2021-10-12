@@ -2,8 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Display from "../Display";
-import Show from "../Show";
-import axios from "axios";
 import fetchShow from "../../api/fetchShow";
 
 ///Tasks:
@@ -49,11 +47,26 @@ test("select options equal to number of seasons in test data", async () => {
   userEvent.click(screen.getByRole("button"));
   const selectionOptions = await screen.findAllByTestId("season-option");
   const testData = await fetchShow();
-  console.log("selectionOptions.length = ", selectionOptions.length);
-  console.log("testData.seasons.length = ", testData.seasons.length);
+  //   console.log("selectionOptions.length = ", selectionOptions.length);
+  //   console.log("testData.seasons.length = ", testData.seasons.length);
   //assert----------------------------------------------------
   expect(selectionOptions).toHaveLength(testData.seasons.length);
 });
 
 //-------------------------------------------------------------
+
 //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
+test("test displayFunc is called when user click at `Press to Get Show Data`", () => {
+  //arrange------------------------------------------------
+  const displayFunc = jest.fn();
+  render(<Display displayFunc={displayFunc} />);
+  //act----------------------------------------------------
+  userEvent.click(screen.getByRole("button"));
+
+  //assert-------------------------------------------------
+  expect(screen.findByText(/stranger things/i)).toBeTruthy();
+  //   expect(displayFunc).toHaveBeenCalled();
+  //????????????????????????????????????????????????????????
+  //   expect(displayFunc).toBeCalledTimes(1);
+  //????????????????????????????????????????????????????????
+});
