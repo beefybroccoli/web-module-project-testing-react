@@ -56,7 +56,7 @@ test("select options equal to number of seasons in test data", async () => {
 //-------------------------------------------------------------
 
 //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
-test("test displayFunc is called when user click at `Press to Get Show Data`", () => {
+test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
   //arrange------------------------------------------------
   const displayFunc = jest.fn();
   render(<Display displayFunc={displayFunc} />);
@@ -65,8 +65,9 @@ test("test displayFunc is called when user click at `Press to Get Show Data`", (
 
   //assert-------------------------------------------------
   expect(screen.findByText(/stranger things/i)).toBeTruthy();
-  //   expect(displayFunc).toHaveBeenCalled();
+
   //????????????????????????????????????????????????????????
+  await expect(displayFunc).toHaveBeenCalled();
   //   expect(displayFunc).toBeCalledTimes(1);
   //????????????????????????????????????????????????????????
 });
