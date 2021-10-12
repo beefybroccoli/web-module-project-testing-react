@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Display from "../Display";
 import fetchShow from "../../api/fetchShow";
+import sampleTestData from "../../data/sampleTestData";
+jest.mock("../../api/fetchShow.js");
 
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
@@ -26,6 +28,7 @@ test("render Display component", () => {
 //4. Test that when the fetch button is pressed, the show component will display. Make sure to account for the api call and change of state in building your test.
 test("show season selector when user click", async () => {
   //arrange---------------------------------------------------
+  fetchShow.mockResolvedValueOnce(sampleTestData);
   render(<Display />);
   const button = screen.getByRole("button");
   //   console.log(button);
@@ -42,55 +45,37 @@ test("show season selector when user click", async () => {
 //5. Test that when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data.
 test("select options equal to number of seasons in test data", async () => {
   //arrange---------------------------------------------------
+  fetchShow.mockResolvedValueOnce(sampleTestData);
   render(<Display />);
   //act------------------------------------------------------
-  userEvent.click(screen.getByRole("button"));
+  const button = screen.getByRole("button");
+  userEvent.click(button);
   const selectionOptions = await screen.findAllByTestId("season-option");
-  const testData = await fetchShow();
-  //   console.log("selectionOptions.length = ", selectionOptions.length);
-  //   console.log("testData.seasons.length = ", testData.seasons.length);
+  const testData = console.log(
+    "selectionOptions.length = ",
+    selectionOptions.length
+  );
+  console.log(
+    "sampleTestData.seasons.length = ",
+    sampleTestData.seasons.length
+  );
+
   //assert----------------------------------------------------
-  expect(selectionOptions).toHaveLength(testData.seasons.length);
+  expect(selectionOptions).toHaveLength(sampleTestData.seasons.length);
 });
 
-//-------------------------------------------------------------
-//6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
-test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
-  //arrange------------------------------------------------
-  const asyncMock = jest
-    .fn()
-    .mockResolvedValue("")
-    .mockResolvedValueOnce("first call");
+// //-------------------------------------------------------------
+// //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
+// test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
+//   //arrange------------------------------------------------
+//   const displayFunc = jest.fn();
+//   render(<Display displayFunc={displayFunc} />);
 
-  const displayFunc = jest.fn();
+//   //act----------------------------------------------------
+//   fetchShow.mockResolvedValueOnce(sampleTestData);
+//   const button = screen.getByRole("button");
+//   userEvent.click(button);
 
-  render(<Display displayFunc={displayFunc} />);
-
-  //act----------------------------------------------------
-  userEvent.click(screen.getByRole("button"));
-  await asyncMock();
-
-  //assert-------------------------------------------------
-  //   expect(screen.findByText(/stranger things/i)).toBeTruthy();
-  //????????????????????????????????????????????????????????
-  expect(asyncMock).toHaveBeenCalledTimes(1);
-  //   await expect(displayFunc).toHaveBeenCalled();
-  //   expect(displayFunc).toBeCalledTimes(1);
-  //????????????????????????????????????????????????????????
-});
-
-/*
-test('async test', async () => {
-  const asyncMock = jest
-    .fn()
-    .mockResolvedValue('default')
-    .mockResolvedValueOnce('first call')
-    .mockResolvedValueOnce('second call');
-
-  await asyncMock(); // first call
-  await asyncMock(); // second call
-  await asyncMock(); // default
-  await asyncMock(); // default
-});
-
-*/
+//   //assert-------------------------------------------------
+//   //????????????????????????????????????????????????????????
+// });

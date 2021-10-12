@@ -27,13 +27,14 @@ const fetchShow = () => {
     )
     .then((res) => {
       const { data } = res;
+      console.log("data._embedded.episodes = ", data._embedded.episodes);
       const result = {
         name: data.name,
         image: data.image,
         summary: stripTags(data.summary),
         seasons: formatSeasons(data._embedded.episodes),
       };
-      // console.log("result = ", result);
+
       return result;
     });
 };
