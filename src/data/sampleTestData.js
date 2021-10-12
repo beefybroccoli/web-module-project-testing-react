@@ -643,8 +643,6 @@ const sampleTestData = {
   name: fetchedData.name,
   image: fetchedData.image,
   summary: stripTags(fetchedData.summary),
-  //   seasons: formatSeasons(fetchedData.seasons),
-  //   seasons: formatSeasons(fetchedData.seasons),
   seasons: fetchedData.seasons,
 };
 
