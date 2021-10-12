@@ -51,31 +51,25 @@ test("select options equal to number of seasons in test data", async () => {
   const button = screen.getByRole("button");
   userEvent.click(button);
   const selectionOptions = await screen.findAllByTestId("season-option");
-  const testData = console.log(
-    "selectionOptions.length = ",
-    selectionOptions.length
-  );
-  console.log(
-    "sampleTestData.seasons.length = ",
-    sampleTestData.seasons.length
-  );
 
   //assert----------------------------------------------------
   expect(selectionOptions).toHaveLength(sampleTestData.seasons.length);
 });
 
-// //-------------------------------------------------------------
-// //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
-// test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
-//   //arrange------------------------------------------------
-//   const displayFunc = jest.fn();
-//   render(<Display displayFunc={displayFunc} />);
+//-------------------------------------------------------------
+//6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
+test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
+  //arrange------------------------------------------------
+  const displayFunc = jest.fn();
+  fetchShow.mockResolvedValueOnce(sampleTestData);
+  render(<Display displayFunc={displayFunc} />);
 
-//   //act----------------------------------------------------
-//   fetchShow.mockResolvedValueOnce(sampleTestData);
-//   const button = screen.getByRole("button");
-//   userEvent.click(button);
+  //act----------------------------------------------------
+  fetchShow.mockResolvedValueOnce(sampleTestData);
+  const button = screen.getByRole("button");
+  userEvent.click(button);
 
-//   //assert-------------------------------------------------
-//   //????????????????????????????????????????????????????????
-// });
+  //assert-------------------------------------------------
+  expect(displayFunc).toBeCalled();
+  //????????????????????????????????????????????????????????
+});
