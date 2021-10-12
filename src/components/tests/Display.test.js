@@ -54,20 +54,42 @@ test("select options equal to number of seasons in test data", async () => {
 });
 
 //-------------------------------------------------------------
-
 //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
-test("test displayFunc is called when user click at `Press to Get Show Data`", async () => {
+test("test displayFunc is called when user click at `Press to Get Show Data`", () => {
   //arrange------------------------------------------------
+  const asyncMock = jest
+    .fn()
+    .mockResolvedValue("")
+    .mockResolvedValueOnce("first call");
+
   const displayFunc = jest.fn();
+
   render(<Display displayFunc={displayFunc} />);
+
   //act----------------------------------------------------
   userEvent.click(screen.getByRole("button"));
 
   //assert-------------------------------------------------
-  expect(screen.findByText(/stranger things/i)).toBeTruthy();
-
+  //   expect(screen.findByText(/stranger things/i)).toBeTruthy();
   //????????????????????????????????????????????????????????
-  await expect(displayFunc).toHaveBeenCalled();
+  expect(asyncMock).toHaveBeenCalledTimes(1);
+  //   await expect(displayFunc).toHaveBeenCalled();
   //   expect(displayFunc).toBeCalledTimes(1);
   //????????????????????????????????????????????????????????
 });
+
+/*
+test('async test', async () => {
+  const asyncMock = jest
+    .fn()
+    .mockResolvedValue('default')
+    .mockResolvedValueOnce('first call')
+    .mockResolvedValueOnce('second call');
+
+  await asyncMock(); // first call
+  await asyncMock(); // second call
+  await asyncMock(); // default
+  await asyncMock(); // default
+});
+
+*/
