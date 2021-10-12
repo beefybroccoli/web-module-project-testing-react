@@ -74,3 +74,7 @@ test("test displayFunc is called when user click at `Press to Get Show Data`", a
     expect(displayFunc).toBeHaveBeenCalledOnce();
   });
 });
+
+/*
+    completed Display.test.js
+*/

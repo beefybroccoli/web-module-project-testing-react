@@ -649,12 +649,3 @@ const sampleTestData = {
 };
 
 export default sampleTestData;
-
-/*
-[
-    ...fetchedData.seasons[0].episodes,
-    ...fetchedData.seasons[1].episodes,
-    ...fetchedData.seasons[2].episodes,
-    ...fetchedData.seasons[3].episodes,
-  ]
-*/
